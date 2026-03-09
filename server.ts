@@ -90,7 +90,65 @@ const seedUsers = async () => {
   }
 };
 
-seedUsers();
+const seedPosts = () => {
+  const postCount = db.prepare('SELECT COUNT(*) as count FROM posts').get() as { count: number };
+  if (postCount.count === 0) {
+    const admin = db.prepare('SELECT id FROM users WHERE email = ?').get('Admin123@inti.com') as { id: number };
+    if (admin) {
+      const dummyPosts = [
+        { title: 'The Future of Cultural Exchange', content: 'Cultural exchange programs are evolving rapidly in the digital age. By leveraging new technologies, we can connect communities across the globe more effectively than ever before.', category: 'Culture', image_url: 'https://picsum.photos/seed/culture1/800/600' },
+        { title: 'Business Networking in 2026', content: 'As we navigate the post-pandemic business landscape, networking has taken on new forms. Hybrid events and AI-driven matchmaking are becoming the new standard for professionals.', category: 'Business', image_url: 'https://picsum.photos/seed/business1/800/600' },
+        { title: 'Community Outreach Success Story', content: 'Our recent community outreach program in the downtown area was a massive success. Over 500 volunteers participated, helping to clean up local parks and distribute food to those in need.', category: 'Community', image_url: 'https://picsum.photos/seed/community1/800/600' },
+        { title: 'Upcoming Annual Gala Preview', content: 'Get ready for our biggest event of the year! The Annual Gala will feature keynote speakers from top tech companies, live entertainment, and a silent auction to support our local initiatives.', category: 'Events', image_url: 'https://picsum.photos/seed/events1/800/600' },
+        { title: 'Preserving Traditional Arts', content: 'In an increasingly modernized world, preserving traditional arts and crafts is crucial. We explore how local artisans are keeping their heritage alive through workshops and exhibitions.', category: 'Culture', image_url: 'https://picsum.photos/seed/culture2/800/600' },
+        { title: 'Startup Funding Trends', content: 'Venture capital is shifting focus towards sustainable and socially responsible startups. Here is what founders need to know when pitching to investors this quarter.', category: 'Business', image_url: 'https://picsum.photos/seed/business2/800/600' },
+        { title: 'Youth Leadership Workshop Recap', content: 'Last weekend, we hosted a leadership workshop for high school students. The engagement and innovative ideas presented by these young minds were truly inspiring.', category: 'Community', image_url: 'https://picsum.photos/seed/community2/800/600' },
+        { title: 'Tech Conference 2026 Highlights', content: 'The recent tech conference brought together industry leaders to discuss AI, blockchain, and the future of work. Read our comprehensive summary of the key takeaways.', category: 'Events', image_url: 'https://picsum.photos/seed/events2/800/600' },
+        { title: 'Culinary Heritage Festival', content: 'Food is a universal language. Our upcoming Culinary Heritage Festival will showcase traditional dishes from over 20 different cultures, prepared by local chefs.', category: 'Culture', image_url: 'https://picsum.photos/seed/culture3/800/600' },
+        { title: 'Building Resilient Supply Chains', content: 'Global disruptions have highlighted the need for resilient supply chains. Experts share their strategies for mitigating risks and ensuring business continuity.', category: 'Business', image_url: 'https://picsum.photos/seed/business3/800/600' }
+      ];
+
+      const insertPost = db.prepare('INSERT INTO posts (title, content, category, image_url, author_id) VALUES (?, ?, ?, ?, ?)');
+      
+      db.transaction(() => {
+        for (const post of dummyPosts) {
+          insertPost.run(post.title, post.content, post.category, post.image_url, admin.id);
+        }
+      })();
+    }
+  }
+};
+
+const seedEvents = () => {
+  const eventCount = db.prepare('SELECT COUNT(*) as count FROM events').get() as { count: number };
+  if (eventCount.count === 0) {
+    const dummyEvents = [
+      { title: 'Global Tech Summit 2026', description: 'Join industry leaders for a 3-day summit discussing the future of AI, quantum computing, and sustainable tech.', date: '2026-05-15T09:00:00Z', location: 'San Francisco Convention Center', image_url: 'https://picsum.photos/seed/eventtech1/800/600' },
+      { title: 'Cultural Heritage Festival', description: 'A celebration of diverse cultures featuring traditional music, dance, and culinary delights from around the world.', date: '2026-06-20T10:00:00Z', location: 'City Park Amphitheater', image_url: 'https://picsum.photos/seed/eventculture1/800/600' },
+      { title: 'Startup Pitch Night', description: 'Watch 10 promising startups pitch their ideas to a panel of top venture capitalists. Networking session to follow.', date: '2026-04-10T18:30:00Z', location: 'Innovation Hub Downtown', image_url: 'https://picsum.photos/seed/eventbusiness1/800/600' },
+      { title: 'Community Clean-Up Drive', description: 'Give back to the community by joining our monthly clean-up drive. Supplies and lunch will be provided for all volunteers.', date: '2026-03-28T08:00:00Z', location: 'Riverside Park', image_url: 'https://picsum.photos/seed/eventcommunity1/800/600' },
+      { title: 'Future of Finance Panel', description: 'Experts discuss the evolving landscape of fintech, decentralized finance, and digital currencies.', date: '2026-05-05T14:00:00Z', location: 'Financial District Hotel', image_url: 'https://picsum.photos/seed/eventfinance1/800/600' },
+      { title: 'Annual Charity Gala', description: 'An elegant evening of dining and entertainment to raise funds for local educational initiatives. Black tie optional.', date: '2026-07-12T19:00:00Z', location: 'Grand Ballroom', image_url: 'https://picsum.photos/seed/eventgala1/800/600' },
+      { title: 'Art & Design Expo', description: 'Discover the latest trends in contemporary art and graphic design. Featuring works from over 50 emerging artists.', date: '2026-08-18T11:00:00Z', location: 'Modern Art Museum', image_url: 'https://picsum.photos/seed/eventart1/800/600' },
+      { title: 'Health & Wellness Retreat', description: 'A weekend dedicated to mindfulness, yoga, and holistic health practices. Disconnect and recharge.', date: '2026-09-05T08:00:00Z', location: 'Mountain View Resort', image_url: 'https://picsum.photos/seed/eventhealth1/800/600' },
+      { title: 'E-commerce Strategies Workshop', description: 'Learn how to optimize your online store, improve conversion rates, and build customer loyalty in this intensive workshop.', date: '2026-04-22T10:00:00Z', location: 'Business Center Room A', image_url: 'https://picsum.photos/seed/eventecommerce1/800/600' },
+      { title: 'Local Food Tasting Tour', description: 'Experience the best local cuisine with a guided tasting tour of the city\'s most renowned restaurants and hidden gems.', date: '2026-05-30T17:00:00Z', location: 'Downtown Market Square', image_url: 'https://picsum.photos/seed/eventfood1/800/600' }
+    ];
+
+    const insertEvent = db.prepare('INSERT INTO events (title, description, date, location, image_url) VALUES (?, ?, ?, ?, ?)');
+    
+    db.transaction(() => {
+      for (const event of dummyEvents) {
+        insertEvent.run(event.title, event.description, event.date, event.location, event.image_url);
+      }
+    })();
+  }
+};
+
+seedUsers().then(() => {
+  seedPosts();
+  seedEvents();
+});
 
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key-for-dev';
 
@@ -175,6 +233,12 @@ async function startServer() {
     res.json(events);
   });
 
+  app.get('/api/events/:id', (req, res) => {
+    const event = db.prepare('SELECT * FROM events WHERE id = ?').get(req.params.id);
+    if (!event) return res.status(404).json({ error: 'Event not found' });
+    res.json(event);
+  });
+
   app.post('/api/events', authenticateToken, requireAdmin, (req, res) => {
     const { title, description, date, location, image_url } = req.body;
     const stmt = db.prepare('INSERT INTO events (title, description, date, location, image_url) VALUES (?, ?, ?, ?, ?)');
@@ -221,6 +285,12 @@ async function startServer() {
   app.get('/api/posts', (req, res) => {
     const posts = db.prepare('SELECT posts.*, users.name as author_name FROM posts JOIN users ON posts.author_id = users.id ORDER BY posts.created_at DESC').all();
     res.json(posts);
+  });
+
+  app.get('/api/posts/:id', (req, res) => {
+    const post = db.prepare('SELECT posts.*, users.name as author_name FROM posts JOIN users ON posts.author_id = users.id WHERE posts.id = ?').get(req.params.id);
+    if (!post) return res.status(404).json({ error: 'Post not found' });
+    res.json(post);
   });
 
   app.post('/api/posts', authenticateToken, requireAdmin, (req, res) => {

@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Post {
   id: number;
@@ -97,17 +98,24 @@ export default function Blog() {
                       {new Date(post.created_at).toLocaleDateString()}
                     </span>
                   </div>
-                  <h2 className="text-2xl font-serif font-bold text-gray-900 mb-4 leading-snug hover:text-[#BC002D] transition-colors cursor-pointer">
-                    {post.title}
-                  </h2>
+                  <Link to={`/blog/${post.id}`}>
+                    <h2 className="text-2xl font-serif font-bold text-gray-900 mb-4 leading-snug hover:text-[#BC002D] transition-colors cursor-pointer">
+                      {post.title}
+                    </h2>
+                  </Link>
                   <p className="text-gray-600 mb-6 line-clamp-3">
                     {post.content}
                   </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-sm">
-                      {post.author_name.charAt(0)}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-sm">
+                        {post.author_name.charAt(0)}
+                      </div>
+                      <span className="text-sm font-medium text-gray-900">{post.author_name}</span>
                     </div>
-                    <span className="text-sm font-medium text-gray-900">{post.author_name}</span>
+                    <Link to={`/blog/${post.id}`} className="text-[#BC002D] font-bold text-sm hover:underline">
+                      Read More →
+                    </Link>
                   </div>
                 </div>
               </motion.article>

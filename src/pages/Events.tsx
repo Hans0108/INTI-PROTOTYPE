@@ -1,7 +1,8 @@
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
-import { Calendar, MapPin, Users } from 'lucide-react';
+import { Calendar, MapPin, Users, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 interface Event {
   id: number;
@@ -137,9 +138,15 @@ export default function Events() {
                       <span className="text-sm font-medium">{event.location}</span>
                     </div>
                   </div>
-                  <p className="text-gray-600 mb-8 line-clamp-3 flex-grow">
+                  <p className="text-gray-600 mb-6 line-clamp-3 flex-grow">
                     {event.description}
                   </p>
+                  <Link 
+                    to={`/events/${event.id}`}
+                    className="inline-flex items-center text-[#BC002D] font-bold hover:underline mb-6"
+                  >
+                    View Details <ArrowRight className="w-4 h-4 ml-1" />
+                  </Link>
                   <button
                     onClick={() => handleRSVP(event.id)}
                     className={`w-full py-4 rounded-xl font-bold border transition-all duration-300 flex items-center justify-center gap-2 mt-auto ${

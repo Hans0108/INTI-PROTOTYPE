@@ -311,7 +311,7 @@ export default function Admin() {
                       </select>
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Image URL (Optional)</label>
                       <input type="url" className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#BC002D]" value={newPost.image_url} onChange={e => setNewPost({...newPost, image_url: e.target.value})} />
                     </div>
                   </div>

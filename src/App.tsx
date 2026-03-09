@@ -11,9 +11,11 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Blog from './pages/Blog';
 import Events from './pages/Events';
+import EventDetail from './pages/EventDetail';
 import Portal from './pages/Portal';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
+import BlogDetail from './pages/BlogDetail';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -24,7 +26,9 @@ function AnimatedRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogDetail />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/events/:id" element={<EventDetail />} />
           <Route path="/portal" element={<Portal />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<Admin />} />
